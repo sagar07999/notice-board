@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
+import toast from "react-hot-toast";
 
 export default function CreateNotice() {
   const router = useRouter();
@@ -27,10 +28,10 @@ export default function CreateNotice() {
 
     try {
       await axios.post("/api/notices", form);
-      alert("Notice created successfully");
+      toast.success("Notice created successfully");
       router.push("/");
     } catch (err) {
-      alert(err.response?.data?.message || "Something went wrong");
+      toast.error(err.response?.data?.message || "Something went wrong");
     }
   };
 
