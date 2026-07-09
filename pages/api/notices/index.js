@@ -4,13 +4,14 @@ export default async function handler(req, res) {
     if (req.method === "GET") {
         try {
             const notices = await prisma.notice.findMany({
-                orderBy: [{
-                        priority: "desc",
-                    },
-                    {
-                        publishDate: "desc",
-                    },
-                ],
+                orderBy: {
+                    publishDate: "desc",
+                },
+            });
+
+            notices.sort((a, b) => {
+                if (a.priority === b.priority) return 0;
+                return a.priority === "Urgent" ? -1 : 1;
             });
 
             return res.status(200).json(notices);
